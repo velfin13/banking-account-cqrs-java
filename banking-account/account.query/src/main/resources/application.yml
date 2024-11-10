@@ -23,6 +23,6 @@ spring:
             trusted:
               packages: '*'
     listener:
-      ack-mode: MANUAL_INMEDIATE
+      ack-mode: MANUAL_IMMEDIATE
 server:
   port: 5001
