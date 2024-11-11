@@ -61,4 +61,6 @@ public abstract class AggregateRoot {
     public void replayEvents(Iterable<BaseEvent> events) {
         events.forEach(e -> applyChanges(e, false));
     }
+
+    
 }
