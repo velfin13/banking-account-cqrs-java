@@ -5,10 +5,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.stereotype.Service;
+
 import me.velfinvelasquez.cqrs.core.commands.BaseCommand;
 import me.velfinvelasquez.cqrs.core.commands.CommandHandlerMethod;
 import me.velfinvelasquez.cqrs.core.infrastructure.CommandDispatcher;
 
+@Service
 public class AccountCommandDispatcher implements CommandDispatcher {
 
     private final Map<Class<? extends BaseCommand>, List<CommandHandlerMethod>> routes = new HashMap<>();
