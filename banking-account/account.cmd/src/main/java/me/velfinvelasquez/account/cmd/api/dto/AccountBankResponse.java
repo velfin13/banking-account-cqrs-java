@@ -8,10 +8,10 @@ import me.velfinvelasquez.account.common.dto.BaseResponse;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class OpenAccountResponse extends BaseResponse {
+public class AccountBankResponse extends BaseResponse {
     private String id;
 
-    public OpenAccountResponse(String message, String id) {
+    public AccountBankResponse(String message, String id) {
         super(message);
         this.id = id;
     }
