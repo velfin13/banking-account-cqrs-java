@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.stereotype.Service;
 
 import me.velfinvelasquez.account.common.events.AccountCloseEvent;
 import me.velfinvelasquez.account.common.events.AccountOpenedEvent;
@@ -11,6 +12,7 @@ import me.velfinvelasquez.account.common.events.FundDepositEvent;
 import me.velfinvelasquez.account.common.events.FundWithDrawEvent;
 import me.velfinvelasquez.account.query.infrastructure.handlers.EventHandler;
 
+@Service
 public class AccountEventConsumer implements EventConsumer {
 
     @Autowired
