@@ -14,12 +14,16 @@ import me.velfinvelasquez.cqrs.core.events.EventModel;
 import me.velfinvelasquez.cqrs.core.exception.AggregateNotFoundException;
 import me.velfinvelasquez.cqrs.core.exception.ConcurrentException;
 import me.velfinvelasquez.cqrs.core.infrastructure.EventStore;
+import me.velfinvelasquez.cqrs.core.producers.EventProducer;
 
 @Service
 public class AccountEventStore implements EventStore {
 
     @Autowired
     private EventStoreRepository eventStoreRepository;
+
+    @Autowired
+    private EventProducer eventProducer;
 
     @Override
     public void saveEvents(String aggregateId, Iterable<BaseEvent> events, int expectedVersion) {
@@ -31,9 +35,9 @@ public class AccountEventStore implements EventStore {
 
         int version = expectedVersion;
 
-        for (BaseEvent ev : events) {
+        for (BaseEvent event : events) {
             version++;
-            ev.setVersion(version);
+            event.setVersion(version);
 
             EventModel eventModel = EventModel
                     .builder()
@@ -41,14 +45,14 @@ public class AccountEventStore implements EventStore {
                     .aggregateIdentifier(aggregateId)
                     .aggregateType(AccountAggregate.class.getTypeName())
                     .version(version)
-                    .eventType(ev.getClass().getTypeName())
-                    .eventData(ev)
+                    .eventType(event.getClass().getTypeName())
+                    .eventData(event)
                     .build();
 
             EventModel persistedEvent = eventStoreRepository.save(eventModel);
 
-            if (persistedEvent != null) {
-                // producir el evento para kafka
+            if (!persistedEvent.getId().isEmpty()) {
+                eventProducer.produce(event.getClass().getSimpleName(), event);
             }
         }
     }
