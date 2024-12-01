@@ -11,18 +11,18 @@ spring:
     show-sql: true
     database-platform: org.hibernate.dialect.MySQL8Dialect
   kafka:
+    listener:
+      ack-mode: MANUAL_IMMEDIATE
     consumer:
       bootstrap-servers: localhost:9092
       group-id: bankaccConsumer
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.springframework.kafka.support.serializer.JsonSerializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
         spring:
           json:
             trusted:
               packages: '*'
-    listener:
-      ack-mode: MANUAL_IMMEDIATE
 server:
   port: 5001

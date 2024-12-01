@@ -3,6 +3,7 @@ package me.velfinvelasquez.account.query.infrastructure.consumers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.Acknowledgment;
+import org.springframework.messaging.handler.annotation.Payload;
 
 import me.velfinvelasquez.account.common.events.AccountCloseEvent;
 import me.velfinvelasquez.account.common.events.AccountOpenedEvent;
@@ -15,30 +16,30 @@ public class AccountEventConsumer implements EventConsumer {
     @Autowired
     private EventHandler eventHandler;
 
-    @KafkaListener(topics = "AccountOpenedEvent" , groupId = "${spring.kafka.consumer.group-id}")
+    @KafkaListener(topics = "AccountOpenedEvent", groupId = "bankaccConsumer")
     @Override
-    public void consume(AccountOpenedEvent event, Acknowledgment ack) {
+    public void consume(@Payload AccountOpenedEvent event, Acknowledgment ack) {
         eventHandler.on(event);
         ack.acknowledge();
     }
 
-    @KafkaListener(topics = "FundDepositEvent" , groupId = "${spring.kafka.consumer.group-id}")
+    @KafkaListener(topics = "FundDepositEvent", groupId = "${spring.kafka.consumer.group-id}")
     @Override
-    public void consume(FundDepositEvent event, Acknowledgment ack) {
+    public void consume(@Payload FundDepositEvent event, Acknowledgment ack) {
         eventHandler.on(event);
         ack.acknowledge();
     }
 
-    @KafkaListener(topics = "FundWithDrawEvent" , groupId = "${spring.kafka.consumer.group-id}")
+    @KafkaListener(topics = "FundWithDrawEvent", groupId = "${spring.kafka.consumer.group-id}")
     @Override
-    public void consume(FundWithDrawEvent event, Acknowledgment ack) {
+    public void consume(@Payload FundWithDrawEvent event, Acknowledgment ack) {
         eventHandler.on(event);
         ack.acknowledge();
     }
 
-    @KafkaListener(topics = "AccountCloseEvent" , groupId = "${spring.kafka.consumer.group-id}")
+    @KafkaListener(topics = "AccountCloseEvent", groupId = "${spring.kafka.consumer.group-id}")
     @Override
-    public void consume(AccountCloseEvent event, Acknowledgment ack) {
+    public void consume(@Payload AccountCloseEvent event, Acknowledgment ack) {
         eventHandler.on(event);
         ack.acknowledge();
     }
